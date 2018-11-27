@@ -23,13 +23,28 @@
     <com.dd.morphingbutton.MorphingButton
         android:id="@+id/google_button"
         style="@style/MorphingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="118dp"
+        android:layout_height="58dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="11dp"
         android:layout_marginTop="72dp"
+        android:layout_marginEnd="-36dp"
+        android:layout_toStartOf="@id/determinateBar"
         android:padding="10dp"
         android:text="@string/google_drive" />
+
+    <ProgressBar
+        android:id="@+id/determinateBar"
+        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+        android:layout_width="177dp"
+        android:layout_height="53dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="262dp"
+        android:layout_marginEnd="102dp"
+        android:progress="25"
+        tools:visibility="visible" />
+
 
 </RelativeLayout>

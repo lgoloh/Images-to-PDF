@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dd.morphingbutton.MorphingButton;
@@ -84,6 +85,8 @@ public class GoogleSignInControl extends AppCompatActivity implements  View.OnCl
     private ArrayList<String> mImageUri = new ArrayList<>();
     private Bitmap mImageFile;
 
+    ProgressBar mProgressBar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +106,10 @@ public class GoogleSignInControl extends AppCompatActivity implements  View.OnCl
         mMimeTypes.add("image/svg+xml");
 
         mGoogleDrive.setOnClickListener(this);
+
+        mProgressBar = (ProgressBar) findViewById(R.id.determinateBar);
+        mProgressBar.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
@@ -273,8 +280,22 @@ public class GoogleSignInControl extends AppCompatActivity implements  View.OnCl
 
         OpenFileCallback driveOpenFileCallback  = new OpenFileCallback() {
 
+
+            @Override
+            public void onProgress(long bytesDownloaded, long bytesExpected) {
+                int progress = (int) (bytesDownloaded * 100 / bytesExpected);
+                Log.d(TAG, String.format("Loading progress: %d percent", progress));
+                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(progress);
+
+
+            }
+
             @Override
             public void onContents(@NonNull DriveContents contents) {
+
+                mProgressBar.setProgress(100);
+
                 try {
                     mImageFile = BitmapFactory.decodeStream(contents.getInputStream());
                     mResourceClient.discardContents(contents);
@@ -295,11 +316,6 @@ public class GoogleSignInControl extends AppCompatActivity implements  View.OnCl
             public void onError(@NonNull Exception e) {
                 showSnackbar((Activity) getApplicationContext(), "File not downloaded");
                 finish();
-            }
-
-            @Override
-            public void onProgress(long bytesDownloaded, long bytesExpected) {
-
             }
 
 
