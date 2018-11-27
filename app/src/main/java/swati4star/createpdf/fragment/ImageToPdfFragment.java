@@ -21,6 +21,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ import butterknife.OnClick;
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 import swati4star.createpdf.R;
 import swati4star.createpdf.activity.CropImageActivity;
+import swati4star.createpdf.activity.GoogleSignInControl;
 import swati4star.createpdf.activity.ImageEditor;
 import swati4star.createpdf.activity.PreviewActivity;
 import swati4star.createpdf.activity.RearrangeImages;
@@ -80,6 +82,7 @@ import static swati4star.createpdf.util.Constants.DEFAULT_QUALITY_VALUE;
 import static swati4star.createpdf.util.Constants.IMAGE_SCALE_TYPE_ASPECT_RATIO;
 import static swati4star.createpdf.util.Constants.MASTER_PWD_STRING;
 import static swati4star.createpdf.util.Constants.OPEN_SELECT_IMAGES;
+import static swati4star.createpdf.util.Constants.REQUEST_REMOTE_IMAGES;
 import static swati4star.createpdf.util.Constants.RESULT;
 import static swati4star.createpdf.util.Constants.STORAGE_LOCATION;
 import static swati4star.createpdf.util.Constants.appName;
@@ -115,9 +118,11 @@ public class ImageToPdfFragment extends Fragment implements OnItemClickListner,
     @BindView(R.id.tvNoOfImages)
     TextView mNoOfImages;
 
+
     private MorphButtonUtility mMorphButtonUtility;
     private Activity mActivity;
     public static ArrayList<String> mImagesUri = new ArrayList<>();
+    public static ArrayList<String> mDriveImagesUri;
     private String mPath;
     private boolean mOpenSelectImages = false;
     private SharedPreferences mSharedPreferences;
@@ -132,6 +137,8 @@ public class ImageToPdfFragment extends Fragment implements OnItemClickListner,
     private int mMarginLeft = 50;
     private int mMarginRight = 38;
     private String mPageNumStyle;
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -208,16 +215,24 @@ public class ImageToPdfFragment extends Fragment implements OnItemClickListner,
         mEnhancementOptionsRecycleView.setAdapter(adapter);
     }
 
-    /**
-     * Adding Images to PDF
-     */
+
+     //Adding Images to PDF
+
+
     @OnClick(R.id.addImages)
     void startAddingImages() {
         if (mButtonClicked == 0) {
             if (getRuntimePermissions(true))
-                selectImages();
+                selectImagesFromLocal();
             mButtonClicked = 1;
         }
+    }
+
+
+
+    @OnClick(R.id.other_media)
+    void startAddingImagesFromRemote() {
+        selectImagesFromRemote();
     }
 
     /**
@@ -287,7 +302,7 @@ public class ImageToPdfFragment extends Fragment implements OnItemClickListner,
             case PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (mOpenSelectImages)
-                        selectImages();
+                        selectImagesFromLocal();
                     showSnackbar(mActivity, R.string.snackbar_permissions_given);
                 } else
                     showSnackbar(mActivity, R.string.snackbar_insufficient_permissions);
@@ -314,6 +329,7 @@ public class ImageToPdfFragment extends Fragment implements OnItemClickListner,
                 mImagesUri.clear();
                 mImagesUri.addAll(Matisse.obtainPathResult(data));
                 if (mImagesUri.size() > 0) {
+                    Log.d("test-s", mImagesUri.get(0));
                     mNoOfImages.setText(String.format(mActivity.getResources()
                             .getString(R.string.images_selected), mImagesUri.size()));
                     mNoOfImages.setVisibility(View.VISIBLE);
@@ -325,6 +341,26 @@ public class ImageToPdfFragment extends Fragment implements OnItemClickListner,
                 mMorphButtonUtility.morphToSquare(mCreatePdf, mMorphButtonUtility.integer());
                 mOpenPdf.setVisibility(View.GONE);
                 break;
+
+                //Handles the result of the google drive image selection
+            case REQUEST_REMOTE_IMAGES:
+                mImagesUri.clear();
+                mDriveImagesUri = data.getStringArrayListExtra(RESULT);
+                mImagesUri.addAll(mDriveImagesUri);
+                if (mImagesUri.size() > 0) {
+                    Log.d("test-r", mImagesUri.get(0));
+                    mNoOfImages.setText(String.format(mActivity.getResources()
+                            .getString(R.string.images_selected), mImagesUri.size()));
+                    mNoOfImages.setVisibility(View.VISIBLE);
+                    showSnackbar(mActivity, R.string.snackbar_images_added);
+                    mCreatePdf.setEnabled(true);
+                } else {
+                    mNoOfImages.setVisibility(View.GONE);
+                }
+                mMorphButtonUtility.morphToSquare(mCreatePdf, mMorphButtonUtility.integer());
+                mOpenPdf.setVisibility(View.GONE);
+                break;
+
 
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 HashMap<Integer, Uri> croppedImageUris =
@@ -590,10 +626,11 @@ public class ImageToPdfFragment extends Fragment implements OnItemClickListner,
         return true;
     }
 
+
     /**
      * Opens Matisse activity to select Images
      */
-    private void selectImages() {
+    private void selectImagesFromLocal() {
         Matisse.from(this)
                 .choose(MimeType.ofImage(), false)
                 .countable(true)
@@ -602,6 +639,14 @@ public class ImageToPdfFragment extends Fragment implements OnItemClickListner,
                 .maxSelectable(1000)
                 .imageEngine(new PicassoEngine())
                 .forResult(INTENT_REQUEST_GET_IMAGES);
+    }
+
+    /**
+     * Launches the GoogleSignInActivity for a result
+     */
+    private void selectImagesFromRemote() {
+        startActivityForResult(GoogleSignInControl.getStartIntent(mActivity),
+                REQUEST_REMOTE_IMAGES);
     }
 
     /**

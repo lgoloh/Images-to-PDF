@@ -10,7 +10,11 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,15 +28,50 @@
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:orientation="vertical">
 
-                <com.dd.morphingbutton.MorphingButton
-                    android:id="@+id/addImages"
-                    style="@style/MorphingButton"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/select_images_text" />
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="@string/select_images"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.dd.morphingbutton.MorphingButton
+                        android:id="@+id/addImages"
+                        style="@style/MorphingButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="198dp"
+                        android:layout_marginBottom="0dp"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/select_images_text" />
+
+                    <com.dd.morphingbutton.MorphingButton
+                        android:id="@+id/other_media"
+                        style="@style/MorphingButton"
+                        android:layout_width="149dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="-154dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_toEndOf="@id/addImages"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="10dp"
+                        android:text="@string/other_media" />
+
+
+                </RelativeLayout>
+
 
                 <com.dd.morphingbutton.MorphingButton
                     android:id="@+id/pdfOpen"
@@ -46,17 +85,20 @@
                     android:text="@string/open_pdf_text"
                     android:visibility="gone" />
 
+
                 <com.dd.morphingbutton.MorphingButton
                     android:id="@+id/pdfCreate"
                     style="@style/MorphingButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginStart="0dp"
                     android:layout_marginTop="10dp"
                     android:enabled="false"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/create_pdf_text" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -86,9 +128,9 @@
                     android:id="@+id/enhancement_options_recycle_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
+                    android:layout_margin="4dp"
                     android:isScrollContainer="false"
-                    android:layout_margin="4dp" />
+                    android:nestedScrollingEnabled="false" />
             </LinearLayout>
 
             <TextView

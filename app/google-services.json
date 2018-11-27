@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "639850981720",
+    "firebase_url": "https://pdf-converter-222802.firebaseio.com",
+    "project_id": "pdf-converter-222802",
+    "storage_bucket": "pdf-converter-222802.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639850981720:android:3d59d9ec4f931ce9",
+        "android_client_info": {
+          "package_name": "swati4star.createpdf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639850981720-691vhmf59e4k9g562ai62i3bddde96sc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "swati4star.createpdf",
+            "certificate_hash": "b7c45bcc84eee6a6a0a05883d4498db222d5754d"
+          }
+        },
+        {
+          "client_id": "639850981720-vjtautb1pmnvesouslti5n0f5vc5lifd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAClUfSyw6zqKVRa0-6vE68ka3d96Z-PYc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639850981720-vjtautb1pmnvesouslti5n0f5vc5lifd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

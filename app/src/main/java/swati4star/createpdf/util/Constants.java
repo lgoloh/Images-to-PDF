@@ -61,4 +61,9 @@ public class Constants {
 
     public static final String VERSION_NAME = "VERSION_NAME";
 
+    public static final int REQUEST_LOCAL_IMAGES = 0;
+    public static final int REQUEST_REMOTE_IMAGES = 101;
+
+    public static final int REQUEST_SIGN_IN = 110;
+    public static final int REQUEST_SELECT_IMAGE = 111;
 }

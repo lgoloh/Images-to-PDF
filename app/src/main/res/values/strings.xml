@@ -3,7 +3,8 @@
     <string name="title">PDF Actions</string>
 
     <string name="file_name_text">File Name</string>
-    <string name="select_images_text">Select Images</string>
+    <string name="select_images_text">Gallery/Camera</string>
+    <string name="select_images" translatable="false">Select Images From: </string>
     <string name="password_protect_pdf_text">Password Protect PDF</string>
     <string name="edit_images_text">Edit Images</string>
     <string name="open_pdf_text">Open PDF</string>
@@ -438,5 +439,19 @@
     <!-- Whats New Dialog -->
     <string name="whatsnew_continue">Continue</string>
     <string name="whatsnew_title">What\'s New</string>
+
+    <!-- Select Image Dialog -->
+    <string name="camera_or_gallery" translatable="false">Camera / Phone Gallery</string>
+    <string name="other_media" translatable="false">Other Media</string>
+    <string name="browse" translatable="false">...</string>
+    <string name="imageselector_dialog_header" translatable="false">Select Image from : </string>
+
+    <!--Select Remote Media Fragment -->
+    <string name="title_activity_select_remote_media" translatable="false">Choose Remote Media</string>
+    <string name="google_drive" translatable="false"> Google Drive </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="sign_in" translatable="false">Sign In to Access Drive Images</string>
+
 
 </resources>
